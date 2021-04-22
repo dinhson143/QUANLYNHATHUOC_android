@@ -19,6 +19,8 @@
         <activity android:name=".themNhaThuocActivity"></activity>
         <activity android:name=".nhaThuocActivity"></activity>
         <activity android:name=".suaNhaThuocActivity"></activity>
+        <activity android:name=".hoaDonActivity"></activity>
+        <activity android:name=".themHoaDonActivity"></activity>
     </application>
 
 </manifest>

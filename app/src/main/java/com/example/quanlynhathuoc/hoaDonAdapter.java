@@ -7,52 +7,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class nhaThuocAdapter  extends ArrayAdapter<nhaThuoc> {
+public class hoaDonAdapter extends ArrayAdapter<hoaDon> {
     Context context;
     int layoutResourceId;
-    ArrayList<nhaThuoc> data = null;
+    ArrayList<hoaDon> data = null;
 
-    public nhaThuocAdapter(Context context, int layoutResourceId, ArrayList<nhaThuoc> data) {
+    public hoaDonAdapter(Context context, int layoutResourceId, ArrayList<hoaDon> data) {
         super(context, layoutResourceId, data);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
         this.data = data;
     }
-    static class nhaThuocHolder
+    static class hoaDonHolder
     {
-        TextView edtMaNT,edtTenNT,edtDiaChi;
+        TextView edtSoHd,edtNgayHD,edtMaNT;
+        Button btnXoa;
     }
     public View getView(final int position, View convertView, ViewGroup parent)
     {
         View row = convertView;
-        nhaThuocHolder holder = null;
+        hoaDonHolder holder = null;
         if(row!=null)
         {
-            holder = (nhaThuocHolder) row.getTag();
+            holder = (hoaDonHolder) row.getTag();
         }
         else
         {
-            holder = new nhaThuocHolder();
+            holder = new hoaDonHolder();
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            row = inflater.inflate(R.layout.listviewnhathuoc,parent,false);
+            row = inflater.inflate(R.layout.listviewhoadon,parent,false);
+            holder.edtSoHd = row.findViewById(R.id.listSoHD);
+            holder.edtNgayHD = row.findViewById(R.id.listNgayHD);
             holder.edtMaNT = row.findViewById(R.id.listMaNT);
-            holder.edtTenNT = row.findViewById(R.id.listTenNT);
-            holder.edtDiaChi = row.findViewById(R.id.listDiaChi);
             row.setTag(holder);
         }
-        final nhaThuoc nt = data.get(position);
+        final hoaDon nt = data.get(position);
+        holder.edtSoHd.setText(nt.getMaHD());
+        holder.edtNgayHD.setText(nt.getNgayHD());
         holder.edtMaNT.setText(nt.getMaNT());
-        holder.edtTenNT.setText(nt.getTenNT());
-        holder.edtDiaChi.setText(nt.getDiaChi());
         return row;
     }
 }

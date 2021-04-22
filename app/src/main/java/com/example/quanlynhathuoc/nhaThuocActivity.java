@@ -41,9 +41,10 @@ public class nhaThuocActivity extends AppCompatActivity {
     private void loadData() {
         database db = new database(this);
         data.clear();
-        db.getAllData(data);
+        db.getAllDataNhaThuoc(data);
         adapter.notifyDataSetChanged();
-        temp=data.get(0);
+        if(data.size()>0)
+            temp=data.get(0);
     }
 
     public void thongbaoXoa(String title,String mes)

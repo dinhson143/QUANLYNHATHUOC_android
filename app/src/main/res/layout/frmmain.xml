@@ -24,23 +24,15 @@
         android:textStyle="bold"/>
 
     <Button
-        android:id="@+id/btnMoThuoc"
+        android:id="@+id/btnMoNhaThuoc"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/thuoc"
+        android:text="@string/nhaThuoc"
         app:backgroundTint="#4CAF50" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/chiTietBanLe"
-        app:backgroundTint="#4CAF50" />
-
-    <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnMoHoaDon"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -48,11 +40,19 @@
         app:backgroundTint="#4CAF50" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnMoChiTietBanLe"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/nhaThuoc"
+        android:text="@string/chiTietBanLe"
+        app:backgroundTint="#4CAF50" />
+
+    <Button
+        android:id="@+id/btnMoThuoc"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/thuoc"
         app:backgroundTint="#4CAF50" />
 
     <Button
