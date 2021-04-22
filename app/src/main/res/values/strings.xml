@@ -16,8 +16,19 @@
     <string name="diaChi">Địa Chỉ</string>
     <string name="xacNhan">Xác Nhận</string>
     <string name="lamMoi">Làm Mới</string>
-    <string name="huy">Thoát</string>
+    <string name="huy">Hủy</string>
     <string name="troVe">Trở Về</string>
     <string name="themNhaThuoc">Thêm Nhà Thuốc</string>
     <string name="suaNhaThuoc">Sửa Nhà Thuốc</string>
+    <string name="soHoaDon">Số Hóa Đơn</string>
+    <string name="ngayHoaDon">Ngày Hóa Đơn</string>
+    <string name="themHoaDon">Thêm Hóa Đơn</string>
+    <string name="maThuoc">Mã Thuốc</string>
+    <string name="soLuong">Số Lượng</string>
+    <string name="themChiTietBanLe">Thêm Chi Tiết Bán Lẻ</string>
+    <string name="tenThuoc">Tên Thuốc</string>
+    <string name="DVT">Đơn Vị Tính</string>
+    <string name="donGia">Đơn Giá</string>
+    <string name="themThuoc">Thêm Thuốc</string>
+
 </resources>
