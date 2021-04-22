@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:backgroundTint="#4CAF50"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:text="TÌM KIẾM" />
     </LinearLayout>
@@ -57,19 +57,17 @@
         <TextView
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:text="@string/maNhaThuoc"
+            android:text="@string/tenNhaThuoc"
             android:textStyle="bold"
             android:textColor="#F44336"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            />
         <TextView
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:text="@string/maNhaThuoc"
+            android:text="@string/diaChi"
             android:textStyle="bold"
             android:textColor="#F44336"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            />
     </LinearLayout>
     <ListView
         android:id="@+id/lvNhaThuoc"
