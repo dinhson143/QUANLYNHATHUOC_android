@@ -144,7 +144,7 @@ public class database extends SQLiteOpenHelper {
         String sql ="UPDATE "+TB_HOADONS +" set ";
         sql += COL_HOADON_NGAYHD +"='"+hd.getNgayHD()+"',";
         sql += COL_HOADON_MANT +"='"+hd.getMaNT()+"' ";
-        sql += " WHERE " + COL_NHATHUOC_MANT +"='"+hd.getMaHD()+"' ";
+        sql += " WHERE " + COL_HOADON_SOHD +"='"+hd.getMaHD()+"' ";
         db.execSQL(sql);
     }
     public Cursor checkHoaDon(String maHD)

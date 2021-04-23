@@ -21,6 +21,7 @@
         <activity android:name=".suaNhaThuocActivity"></activity>
         <activity android:name=".hoaDonActivity"></activity>
         <activity android:name=".themHoaDonActivity"></activity>
+        <activity android:name=".suaHoaDonActivity"></activity>
     </application>
 
 </manifest>
