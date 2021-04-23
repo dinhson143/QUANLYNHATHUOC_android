@@ -25,6 +25,17 @@ public class database extends SQLiteOpenHelper {
     private static final String COL_HOADON_NGAYHD = "HoaDon_NgayHD";
     private static final String COL_HOADON_MANT = "HoaDon_MaNT";
 
+    private static final String TB_THUOCS = "tbThuoc";
+    private static final String COL_THUOC_MATHUOC = "Thuoc_MaThuoc";
+    private static final String COL_THUOC_TENTHUOC = "Thuoc_TenThuoc";
+    private static final String COL_THUOC_DVT = "Thuoc_DVT";
+    private static final String COL_THUOC_DONGIA = "Thuoc_DonGia";
+
+    private static final String TB_CTBLS = "tbCTBL";
+    private static final String COL_CTBL_SOHD = "CTBL_SoHD";
+    private static final String COL_CTBL_MATHUOC = "CTBL_MaThuoc";
+    private static final String COL_CTBL_SOlUONG = "CTBL_SoLuong";
+
     public database(Context context)
     {
         super(context,DB_NAME,null,DB_VERSION);
@@ -120,6 +131,21 @@ public class database extends SQLiteOpenHelper {
                 hoaDons.add(hd);
             } while (cursor.moveToNext());
 
+        }
+    }
+    public void getAllDataHoaDonCuaNhaThuoc(ArrayList<hoaDon> hoaDons,String MaNT)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql ="SELECT * FROM "+TB_HOADONS +" WHERE "+ COL_HOADON_MANT +"=?";
+        Cursor cursor = db.rawQuery(sql,new String[]{MaNT});
+        if(cursor.moveToFirst()){
+            do {
+                hoaDon hd = new hoaDon();
+                hd.setMaHD(cursor.getString(cursor.getColumnIndex(COL_HOADON_SOHD)));
+                hd.setNgayHD(cursor.getString(cursor.getColumnIndex(COL_HOADON_NGAYHD)));
+                hd.setMaNT(cursor.getString(cursor.getColumnIndex(COL_HOADON_MANT)));
+                hoaDons.add(hd);
+            } while (cursor.moveToNext());
         }
     }
     public void saveHoaDon(hoaDon hd)

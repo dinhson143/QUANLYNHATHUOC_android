@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,9 @@ public class hoaDonActivity extends AppCompatActivity {
     ArrayList<hoaDon> data = new ArrayList<>();
     hoaDonAdapter adapter = null;
     Button NT_btnThem, NT_btnSua,NT_btnXoa,NT_btnXemDS,NT_btnTroVe,NT_btnSearch;
+    TextView txtTieuDeHoaDon;
     hoaDon temp =null;
+    String maNT="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +36,29 @@ public class hoaDonActivity extends AppCompatActivity {
         NT_btnSua = findViewById(R.id.NT_btnSua);
         lvHoaDon = findViewById(R.id.lvHoaDon);
         NT_btnTroVe = findViewById(R.id.NT_btnTroVe);
+        txtTieuDeHoaDon = findViewById(R.id.tieuDeHoaDon);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle!=null)
+        {
+            maNT = bundle.getString("maNT");
+        }
     }
     private void loadData() {
         database db = new database(this);
         data.clear();
         db.getAllDataHoaDon(data);
+        adapter.notifyDataSetChanged();
+        if(data.size()>0)
+        {
+            temp=data.get(0);
+        }
+
+    }
+    private void loadDataMaNT() {
+        database db = new database(this);
+        data.clear();
+        db.getAllDataHoaDonCuaNhaThuoc(data,maNT);
         adapter.notifyDataSetChanged();
         if(data.size()>0)
         {
@@ -74,7 +95,15 @@ public class hoaDonActivity extends AppCompatActivity {
         lvHoaDon.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        loadData();
+        if(maNT=="") // load tat ca
+        {
+            loadData();
+        }
+        else // load hoa don cua nha thuoc
+        {
+            loadDataMaNT();
+            txtTieuDeHoaDon.setText(txtTieuDeHoaDon.getText()+ " "+ maNT);
+        }
         lvHoaDon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

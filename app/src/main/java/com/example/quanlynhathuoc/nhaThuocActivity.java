@@ -36,6 +36,7 @@ public class nhaThuocActivity extends AppCompatActivity {
         NT_btnSua = findViewById(R.id.NT_btnSua);
         lvNhaThuoc = findViewById(R.id.lvNhaThuoc);
         NT_btnTroVe = findViewById(R.id.NT_btnTroVe);
+        NT_btnXemDS = findViewById(R.id.NT_btnXemDS);
     }
 
     private void loadData() {
@@ -113,6 +114,16 @@ public class nhaThuocActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(nhaThuocActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        NT_btnXemDS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(nhaThuocActivity.this, hoaDonActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("maNT",temp.getMaNT());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
