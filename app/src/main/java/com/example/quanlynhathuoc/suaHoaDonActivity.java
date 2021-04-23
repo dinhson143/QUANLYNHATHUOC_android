@@ -21,6 +21,7 @@ public class suaHoaDonActivity extends AppCompatActivity {
     Button btnSuaNT,btnReload,btnExit;
     String tempMaNT;
     ArrayList<String> allMaNT = new ArrayList<>();
+    String maNT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,14 @@ public class suaHoaDonActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         edtSoHD.setText(bundle.getString("soHD"));
         edtNgayHD.setText(bundle.getString("ngayHD"));
-        String maNT = bundle.getString("maNT");
+       maNT = bundle.getString("maNT");
+    }
+
+    private void setEvent() {
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,allMaNT);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        spnMaNT.setAdapter(adapter);
         for(int i=0;i<allMaNT.size();i++)
         {
             if(allMaNT.get(i).equals(maNT))
@@ -51,14 +59,6 @@ public class suaHoaDonActivity extends AppCompatActivity {
                 break;
             }
         }
-        spnMaNT.setSelection(1);
-    }
-
-    private void setEvent() {
-
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,allMaNT);
-        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-        spnMaNT.setAdapter(adapter);
         spnMaNT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
