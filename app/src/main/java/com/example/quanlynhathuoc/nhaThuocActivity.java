@@ -43,6 +43,7 @@ public class nhaThuocActivity extends AppCompatActivity {
         NT_btnTroVe = findViewById(R.id.NT_btnTroVe);
         search = findViewById(R.id.editTextTextPersonName);
         NT_btnSearch = findViewById(R.id.btnSearch);
+        NT_btnXemDS = findViewById(R.id.NT_btnXemDS);
     }
 
     private void loadData() {
@@ -156,26 +157,22 @@ public class nhaThuocActivity extends AppCompatActivity {
         });
         search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged (CharSequence s,int start, int count, int after){
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                nhaThuocActivity.this.adapter.getFilter().filter(s);
+            public void onTextChanged (CharSequence s,int start, int before, int count){
+    //                nhaThuocActivity.this.adapter.getFilter().filter(s);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-//                nhaThuocActivity.this.adapter.getFilter().filter(s);
-                if(s.length()>0)
-                {
+            public void afterTextChanged (Editable s){
+                if (s.length() > 0) {
                     lvNhaThuoc.setAdapter(null);
                     lvNhaThuoc.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     getSearch(s.toString());
-                }
-                else
-                {
+                } else {
                     lvNhaThuoc.setAdapter(null);
                     lvNhaThuoc.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -183,5 +180,15 @@ public class nhaThuocActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-}
+                NT_btnXemDS.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(nhaThuocActivity.this, hoaDonActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("maNT", temp.getMaNT());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }

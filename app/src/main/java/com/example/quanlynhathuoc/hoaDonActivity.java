@@ -3,10 +3,15 @@ package com.example.quanlynhathuoc;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +23,10 @@ public class hoaDonActivity extends AppCompatActivity {
     ArrayList<hoaDon> data = new ArrayList<>();
     hoaDonAdapter adapter = null;
     Button NT_btnThem, NT_btnSua,NT_btnXoa,NT_btnXemDS,NT_btnTroVe,NT_btnSearch;
+    TextView txtTieuDeHoaDon;
+    EditText search;
     hoaDon temp =null;
+    String maNT="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +41,39 @@ public class hoaDonActivity extends AppCompatActivity {
         NT_btnSua = findViewById(R.id.NT_btnSua);
         lvHoaDon = findViewById(R.id.lvHoaDon);
         NT_btnTroVe = findViewById(R.id.NT_btnTroVe);
+        txtTieuDeHoaDon = findViewById(R.id.tieuDeHoaDon);
+        search = findViewById(R.id.editTextTextPersonName);
+        NT_btnSearch = findViewById(R.id.btnSearch);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle!=null)
+        {
+            maNT = bundle.getString("maNT");
+        }
     }
     private void loadData() {
         database db = new database(this);
         data.clear();
         db.getAllDataHoaDon(data);
+        adapter.notifyDataSetChanged();
+        if(data.size()>0)
+        {
+            temp=data.get(0);
+        }
+    }
+    private void getSearch(String soHD)
+    {
+        database db = new database(this);
+        data.clear();
+        db.searchHoaDon(data,soHD);
+        adapter.notifyDataSetChanged();
+        if(data.size()>0)
+            temp=data.get(0);
+    }
+    private void loadDataMaNT() {
+        database db = new database(this);
+        data.clear();
+        db.getAllDataHoaDonCuaNhaThuoc(data,maNT);
         adapter.notifyDataSetChanged();
         if(data.size()>0)
         {
@@ -74,7 +110,15 @@ public class hoaDonActivity extends AppCompatActivity {
         lvHoaDon.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        loadData();
+        if(maNT=="") // load tat ca
+        {
+            loadData();
+        }
+        else // load hoa don cua nha thuoc
+        {
+            loadDataMaNT();
+            txtTieuDeHoaDon.setText(txtTieuDeHoaDon.getText()+ " "+ maNT);
+        }
         lvHoaDon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,8 +136,16 @@ public class hoaDonActivity extends AppCompatActivity {
         NT_btnTroVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(hoaDonActivity.this, MainActivity.class);
-                startActivity(intent);
+                if(maNT=="")
+                {
+                    Intent intent = new Intent(hoaDonActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(hoaDonActivity.this, nhaThuocActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         NT_btnXoa.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +164,52 @@ public class hoaDonActivity extends AppCompatActivity {
                 bundle.putString("maNT",temp.getMaNT());
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+        NT_btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = search.getText().toString().trim();
+                Log.i("aaa",s);
+                if(s.length()>0)
+                {
+                    lvHoaDon.setAdapter(null);
+                    lvHoaDon.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    getSearch(s);
+                }
+                else
+                {
+                    lvHoaDon.setAdapter(null);
+                    lvHoaDon.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    loadData();
+                }
+            }
+        });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged (CharSequence s,int start, int count, int after){
+            }
+
+            @Override
+            public void onTextChanged (CharSequence s,int start, int before, int count){
+                //                nhaThuocActivity.this.adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged (Editable s){
+                if (s.length() > 0) {
+                    lvHoaDon.setAdapter(null);
+                    lvHoaDon.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    getSearch(s.toString());
+                } else {
+                    lvHoaDon.setAdapter(null);
+                    lvHoaDon.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    loadData();
+                }
             }
         });
     }
