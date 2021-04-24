@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -61,6 +62,22 @@ public class database extends SQLiteOpenHelper {
                 nhaThuocs.add(nt);
             } while (cursor.moveToNext());
 
+        }
+    }
+    public void searchNhaThuoc(ArrayList<nhaThuoc> nhaThuocs,String tenNT)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql ="SELECT * FROM "+TB_NHATHUOCS +" WHERE " + COL_NHATHUOC_TENNT +" LIKE "+ "'%'||"+"? || '%'";
+        Cursor cursor = db.rawQuery(sql,new String[]{tenNT.trim()});
+//        Log.i("sql",sql);
+        if(cursor.moveToFirst()) {
+            do {
+                nhaThuoc nt = new nhaThuoc();
+                nt.setMaNT(cursor.getString(cursor.getColumnIndex(COL_NHATHUOC_MANT)));
+                nt.setTenNT(cursor.getString(cursor.getColumnIndex(COL_NHATHUOC_TENNT)));
+                nt.setDiaChi(cursor.getString(cursor.getColumnIndex(COL_NHATHUOC_DIACHI)));
+                nhaThuocs.add(nt);
+            } while (cursor.moveToNext());
         }
     }
     public void saveNhaThuoc(nhaThuoc nt)

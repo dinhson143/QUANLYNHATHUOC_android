@@ -3,9 +3,13 @@ package com.example.quanlynhathuoc;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,6 +24,7 @@ public class nhaThuocActivity extends AppCompatActivity {
     ArrayList<nhaThuoc> data = new ArrayList<>();
     nhaThuocAdapter adapter = null;
     Button NT_btnThem, NT_btnSua,NT_btnXoa,NT_btnXemDS,NT_btnTroVe,NT_btnSearch;
+    EditText search;
     nhaThuoc temp =null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class nhaThuocActivity extends AppCompatActivity {
         NT_btnSua = findViewById(R.id.NT_btnSua);
         lvNhaThuoc = findViewById(R.id.lvNhaThuoc);
         NT_btnTroVe = findViewById(R.id.NT_btnTroVe);
+        search = findViewById(R.id.editTextTextPersonName);
+        NT_btnSearch = findViewById(R.id.btnSearch);
     }
 
     private void loadData() {
@@ -47,6 +54,15 @@ public class nhaThuocActivity extends AppCompatActivity {
             temp=data.get(0);
     }
 
+    private void getSearch(String tenNT)
+    {
+        database db = new database(this);
+        data.clear();
+        db.searchNhaThuoc(data,tenNT);
+        adapter.notifyDataSetChanged();
+        if(data.size()>0)
+            temp=data.get(0);   
+    }
     public void thongbaoXoa(String title,String mes)
     {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
@@ -114,6 +130,57 @@ public class nhaThuocActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(nhaThuocActivity.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        NT_btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = search.getText().toString().trim();
+                Log.i("aaa",s);
+                if(s.length()>0)
+                {
+                    lvNhaThuoc.setAdapter(null);
+                    lvNhaThuoc.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    getSearch(s);
+                }
+                else
+                {
+                    lvNhaThuoc.setAdapter(null);
+                    lvNhaThuoc.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    loadData();
+                }
+            }
+        });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                nhaThuocActivity.this.adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                nhaThuocActivity.this.adapter.getFilter().filter(s);
+                if(s.length()>0)
+                {
+                    lvNhaThuoc.setAdapter(null);
+                    lvNhaThuoc.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    getSearch(s.toString());
+                }
+                else
+                {
+                    lvNhaThuoc.setAdapter(null);
+                    lvNhaThuoc.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    loadData();
+                }
             }
         });
     }
