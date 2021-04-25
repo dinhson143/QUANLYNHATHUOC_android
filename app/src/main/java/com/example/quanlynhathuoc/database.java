@@ -15,7 +15,7 @@ import java.util.List;
 //LỚP XỬ LÍ DỮ LIỆU
 public class database extends SQLiteOpenHelper {
     private static String DB_NAME = "dbNhaThuoc.db";
-    private static int DB_VERSION = 6;
+    private static int DB_VERSION = 8;
     private static final String TB_NHATHUOCS = "tbNhaThuoc";
     private static final String COL_NHATHUOC_MANT = "NhaThuoc_MaNT";
     private static final String COL_NHATHUOC_TENNT = "NhaThuoc_TenNT";
@@ -64,7 +64,7 @@ public class database extends SQLiteOpenHelper {
                 + COL_THUOC_HINHANH + " BLOB)";
 
         String scriptTB_CTBLs = "CREATE TABLE " + TB_CTBLS + "(" + COL_CTBL_SOHD + " TEXT, " + COL_CTBL_MATHUOC
-                + " TEXT, " + COL_CTBL_SOlUONG + "INT, PRIMARY KEY(" + COL_CTBL_SOHD + ", " + COL_CTBL_MATHUOC + "), "
+                + " TEXT, " + COL_CTBL_SOlUONG + " INTEGER, PRIMARY KEY(" + COL_CTBL_SOHD + ", " + COL_CTBL_MATHUOC + "), "
                 + "FOREIGN KEY(" + COL_CTBL_SOHD + ") REFERENCES " + TB_HOADONS + "(" + COL_HOADON_SOHD + "), "
                 + "FOREIGN KEY(" + COL_CTBL_MATHUOC + ") REFERENCES " + TB_THUOCS + "(" + COL_THUOC_MATHUOC + "))";
         db.execSQL(scriptTB_NhaThuocs);
@@ -104,22 +104,7 @@ public class database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
     }
-    public void searchHoaDon(ArrayList<hoaDon> hoadons,String soHD)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sql ="SELECT * FROM "+TB_HOADONS +" WHERE " + COL_HOADON_SOHD +" LIKE "+ "'%'||"+"? || '%'";
-        Cursor cursor = db.rawQuery(sql,new String[]{soHD.trim()});
-//        Log.i("sql",sql);
-        if(cursor.moveToFirst()) {
-            do {
-                hoaDon hd = new hoaDon();
-                hd.setMaHD(cursor.getString(cursor.getColumnIndex(COL_HOADON_SOHD)));
-                hd.setNgayHD(cursor.getString(cursor.getColumnIndex(COL_HOADON_NGAYHD)));
-                hd.setMaNT(cursor.getString(cursor.getColumnIndex(COL_HOADON_MANT)));
-                hoadons.add(hd);
-            } while (cursor.moveToNext());
-        }
-    }
+
     public void saveNhaThuoc(nhaThuoc nt)
     {
         SQLiteDatabase db = getWritableDatabase();
@@ -152,6 +137,7 @@ public class database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql,new String[]{maNT,tenNT});
         return cursor;
     }
+    // Hóa đơn
     public void getAllMaNhaThuoc(ArrayList<String> maNTs)
     {
         SQLiteDatabase db = getWritableDatabase();
@@ -226,7 +212,22 @@ public class database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql,new String[]{maHD});
         return cursor;
     }
-
+    public void searchHoaDon(ArrayList<hoaDon> hoadons,String soHD)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql ="SELECT * FROM "+TB_HOADONS +" WHERE " + COL_HOADON_SOHD +" LIKE "+ "'%'||"+"? || '%'";
+        Cursor cursor = db.rawQuery(sql,new String[]{soHD.trim()});
+//        Log.i("sql",sql);
+        if(cursor.moveToFirst()) {
+            do {
+                hoaDon hd = new hoaDon();
+                hd.setMaHD(cursor.getString(cursor.getColumnIndex(COL_HOADON_SOHD)));
+                hd.setNgayHD(cursor.getString(cursor.getColumnIndex(COL_HOADON_NGAYHD)));
+                hd.setMaNT(cursor.getString(cursor.getColumnIndex(COL_HOADON_MANT)));
+                hoadons.add(hd);
+            } while (cursor.moveToNext());
+        }
+    }
     //Chi tiết bán lẻ
     public void getAllDataCTBL(ArrayList<chiTietBanLe> CTBL)
     {
@@ -238,13 +239,27 @@ public class database extends SQLiteOpenHelper {
             do {
                 chiTietBanLe c = new chiTietBanLe();
                 c.setSoHD(cursor.getString(cursor.getColumnIndex(COL_CTBL_SOHD)));
-                c.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+                c.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_CTBL_MATHUOC)));
                 c.setSoLuong(cursor.getInt(cursor.getColumnIndex(COL_CTBL_SOlUONG)));
                 CTBL.add(c);
             }while (cursor.moveToNext());
         }
     }
-
+    public void getAllDataCTBLCuaHoaDon(ArrayList<chiTietBanLe> CTBL,String soHD)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql ="SELECT * FROM "+TB_CTBLS +" WHERE "+ COL_CTBL_SOHD +"=?";
+        Cursor cursor = db.rawQuery(sql,new String[]{soHD});
+        if(cursor.moveToFirst()){
+            do {
+                chiTietBanLe c = new chiTietBanLe();
+                c.setSoHD(cursor.getString(cursor.getColumnIndex(COL_CTBL_SOHD)));
+                c.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_CTBL_MATHUOC)));
+                c.setSoLuong(cursor.getInt(cursor.getColumnIndex(COL_CTBL_SOlUONG)));
+                CTBL.add(c);
+            } while (cursor.moveToNext());
+        }
+    }
     public void saveCTBL(chiTietBanLe c)
     {
         SQLiteDatabase db = getWritableDatabase();
@@ -252,14 +267,14 @@ public class database extends SQLiteOpenHelper {
         values.put(COL_CTBL_SOHD, c.getSoHD());
         values.put(COL_CTBL_MATHUOC, c.getMaThuoc());
         values.put(COL_CTBL_SOlUONG, c.getSoLuong());
-        db.insert(TB_THUOCS, null, values);
+        db.insert(TB_CTBLS, null, values);
         db.close();
     }
 
     public void deleteCTBL(String soHD, String maThuoc)
     {
         SQLiteDatabase db = getWritableDatabase();
-        String query = "DELETE FROM " + TB_THUOCS + " WHERE " + COL_CTBL_SOHD + "= '" + soHD + "' AND " + COL_THUOC_MATHUOC + "='" + maThuoc  + "'";
+        String query = "DELETE FROM " + TB_CTBLS + " WHERE " + COL_CTBL_SOHD + "= '" + soHD + "' AND " + COL_CTBL_MATHUOC + "='" + maThuoc  + "'";
         db.execSQL(query);
     }
 
@@ -267,21 +282,56 @@ public class database extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = getWritableDatabase();
         String sql = "UPDATE " + TB_CTBLS + " SET ";
-        /*sql += COL_CTBL_SOHD + " = '" + c.getSoHD() +"', ";
-        sql += COL_CTBL_MATHUOC + " = '" + c.getMaThuoc() +"', ";*/
         sql += COL_CTBL_SOlUONG + " = '" + c.getSoLuong() +"' ";
-        sql += "WHERE " + COL_CTBL_SOHD + "= '" + c.getSoHD() + "' AND " + COL_THUOC_MATHUOC + " = '" + c.getMaThuoc() + "'";
+        sql += "WHERE " + COL_CTBL_SOHD + "= '" + c.getSoHD() + "' AND " + COL_CTBL_MATHUOC + " = '" + c.getMaThuoc() + "'";
         db.execSQL(sql);
     }
 
     public Cursor checkCTBL(String soHD, String maThuoc)
     {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "SELECT * FROM " + TB_THUOCS + " WHERE " + COL_THUOC_MATHUOC + "=? AND " + COL_CTBL_SOHD + "=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{maThuoc, soHD});
+        String sql = "SELECT * FROM " + TB_CTBLS + " WHERE " + COL_CTBL_SOHD + "=? AND " + COL_CTBL_MATHUOC + "=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{soHD, maThuoc});
         return cursor;
     }
-
+    public void getAllSoHD(ArrayList<String> soHDs)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TB_HOADONS, new String[]{
+                COL_HOADON_SOHD},null,null,null,null,null);
+        if(cursor.moveToFirst()){
+            do {
+                soHDs.add(cursor.getString(cursor.getColumnIndex(COL_HOADON_SOHD)));
+            } while (cursor.moveToNext());
+        }
+    }
+    public void getAllMaThuoc(ArrayList<String> maThuocs)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TB_THUOCS, new String[]{
+                COL_THUOC_MATHUOC},null,null,null,null,null);
+        if(cursor.moveToFirst()){
+            do {
+                maThuocs.add(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+            } while (cursor.moveToNext());
+        }
+    }
+    public void searchCTBL(ArrayList<chiTietBanLe> chiTietBanLes,String maThuoc)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql ="SELECT * FROM "+TB_CTBLS +" WHERE " + COL_CTBL_MATHUOC +" LIKE "+ "'%'||"+"? || '%'";
+        Cursor cursor = db.rawQuery(sql,new String[]{maThuoc.trim()});
+//        Log.i("sql",sql);
+        if(cursor.moveToFirst()) {
+            do {
+                chiTietBanLe ctbl = new chiTietBanLe();
+                ctbl.setSoHD(cursor.getString(cursor.getColumnIndex(COL_CTBL_SOHD)));
+                ctbl.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_CTBL_MATHUOC)));
+                ctbl.setSoLuong(cursor.getInt(cursor.getColumnIndex(COL_CTBL_SOlUONG)));
+                chiTietBanLes.add(ctbl);
+            } while (cursor.moveToNext());
+        }
+    }
     //Thuốc
     public void getAllDataThuoc(ArrayList<thuoc> thuocs)
     {

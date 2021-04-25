@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tieuDeCTBL"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="@string/chiTietBanLe"
@@ -18,15 +18,29 @@
         android:textStyle="bold"
         android:textColor="#F44336"/>
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/timKiem"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/timKiem"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="#4CAF50"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="TÌM KIẾM" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

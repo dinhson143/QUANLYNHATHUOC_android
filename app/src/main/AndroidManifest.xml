@@ -26,6 +26,8 @@
         <activity android:name=".themThuocActivity"></activity>
         <activity android:name=".suaThuocActivity"></activity>
         <activity android:name=".chiTietBanLeActivity"></activity>
+        <activity android:name=".themChiTietBanLeActivity"></activity>
+        <activity android:name=".suaChiTietBanLeActivity"></activity>
     </application>
 
 </manifest>

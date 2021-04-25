@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/themChiTietBanLe"
+        android:text="@string/suaChiTietBanLe"
         android:textAlignment="center"
         android:textColor="#4CAF50"
         android:textSize="40dp"

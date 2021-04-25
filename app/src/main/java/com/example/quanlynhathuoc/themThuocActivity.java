@@ -9,6 +9,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,10 +32,53 @@ public class themThuocActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmthemthuoc);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
     }
-
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.themactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xacNhan:
+            {
+                if (edtMaThuoc.getText().length() == 0)
+                {
+                    Toast.makeText(themThuocActivity.this, "Vui lòng nhập Mã Thuốc!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (edtTenThuoc.getText().length() == 0)
+                {
+                    Toast.makeText(themThuocActivity.this, "Vui lòng nhập Tên Thuốc!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (edtDVT.getText().length() == 0)
+                {
+                    Toast.makeText(themThuocActivity.this, "Vui lòng nhập Đơn Vị Tính!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (edtDonGia.getText().length() == 0)
+                {
+                    Toast.makeText(themThuocActivity.this, "Vui lòng nhập Đơn Giá!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                TNhap();
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(themThuocActivity.this, thuocActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setEvent() {
         btnXacNhanThemT.setOnClickListener(new View.OnClickListener() {
             @Override

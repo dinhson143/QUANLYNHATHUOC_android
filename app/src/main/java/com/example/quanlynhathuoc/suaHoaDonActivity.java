@@ -34,6 +34,7 @@ public class suaHoaDonActivity extends AppCompatActivity {
         setEvent();
         edtSoHD.setEnabled(false);
     }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.themactionbar,menu);

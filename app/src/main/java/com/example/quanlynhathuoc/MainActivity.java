@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
+            case R.id.AB_Thuoc:
+            {
+                Intent intent = new Intent(MainActivity.this, thuocActivity.class);
+                startActivity(intent);
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

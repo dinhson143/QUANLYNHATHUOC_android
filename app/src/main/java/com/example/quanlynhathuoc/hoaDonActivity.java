@@ -99,12 +99,23 @@ public class hoaDonActivity extends AppCompatActivity {
         txtTieuDeHoaDon = findViewById(R.id.tieuDeHoaDon);
         search = findViewById(R.id.editTextTextPersonName);
         NT_btnSearch = findViewById(R.id.btnSearch);
+        NT_btnXemDS = findViewById(R.id.NT_btnXemDS);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle!=null)
         {
             maNT = bundle.getString("maNT");
         }
+    }
+
+    private void getSearch(String soHD)
+    {
+        database db = new database(this);
+        data.clear();
+        db.searchHoaDon(data,soHD);
+        adapter.notifyDataSetChanged();
+        if(data.size()>0)
+            temp=data.get(0);
     }
     private void loadData() {
         database db = new database(this);
@@ -115,15 +126,6 @@ public class hoaDonActivity extends AppCompatActivity {
         {
             temp=data.get(0);
         }
-    }
-    private void getSearch(String soHD)
-    {
-        database db = new database(this);
-        data.clear();
-        db.searchHoaDon(data,soHD);
-        adapter.notifyDataSetChanged();
-        if(data.size()>0)
-            temp=data.get(0);
     }
     private void loadDataMaNT() {
         database db = new database(this);
@@ -217,6 +219,16 @@ public class hoaDonActivity extends AppCompatActivity {
                 bundle.putString("soHD",temp.getMaHD());
                 bundle.putString("ngayHD",temp.getNgayHD());
                 bundle.putString("maNT",temp.getMaNT());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        NT_btnXemDS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(hoaDonActivity.this, chiTietBanLeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("soHD", temp.getMaHD());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

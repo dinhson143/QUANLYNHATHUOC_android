@@ -33,4 +33,5 @@
     <string name="themThuoc">Thêm Thuốc</string>
     <string name="suaThuoc">Sửa Thuốc</string>
     <string name="suaHoaDon">Sửa Hóa Đơn</string>
+    <string name="suaChiTietBanLe">Sửa Chi Tiết Bán Lẻ</string>
 </resources>

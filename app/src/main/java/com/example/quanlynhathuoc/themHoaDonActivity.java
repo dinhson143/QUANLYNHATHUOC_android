@@ -33,6 +33,7 @@ public class themHoaDonActivity extends AppCompatActivity {
         setControl();
         setEvent();
     }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.themactionbar,menu);
@@ -95,7 +96,7 @@ public class themHoaDonActivity extends AppCompatActivity {
                 }
                 if (tempMaNT == null)
                 {
-                    Toast.makeText(themHoaDonActivity.this, "Vui lòng chọn Thuốc!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(themHoaDonActivity.this, "Vui lòng chọn Nhà Thuốc!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 HDNhap();

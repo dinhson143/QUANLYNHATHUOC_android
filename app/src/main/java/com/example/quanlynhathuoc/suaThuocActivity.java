@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,11 +30,49 @@ public class suaThuocActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmsuathuoc);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
         edtMaThuoc.setEnabled(false);
     }
-
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.themactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xacNhan:
+            {
+                if (edtTenThuoc.getText().length() == 0)
+                {
+                    Toast.makeText(suaThuocActivity.this, "Vui lòng nhập Tên Thuốc!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (edtDVT.getText().length() == 0)
+                {
+                    Toast.makeText(suaThuocActivity.this, "Vui lòng nhập Đơn Vị Tính!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (edtDonGia.getText().length() == 0)
+                {
+                    Toast.makeText(suaThuocActivity.this, "Vui lòng nhập Đơn Giá!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                Tsua();
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(suaThuocActivity.this, thuocActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setEvent() {
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override

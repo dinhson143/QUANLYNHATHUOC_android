@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -30,10 +32,57 @@ public class thuocActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmthuoc);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.formactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xemDS:
+            {
+                return true;
+            }
+            case R.id.Ab_them:
+            {
+                Intent intent = new Intent(thuocActivity.this, themThuocActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.AB_xoa:
+            {
+                thongBaoXoa("XÁC NHẬN XÓA","Bạn chắc chắn muốn xóa nhà thuốc?");
+                return true;
+            }
+            case R.id.AB_sua:
+            {
+                Intent intent = new Intent(thuocActivity.this, suaThuocActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("maT",temp.getMaThuoc());
+                bundle.putString("tenT",temp.getTenThuoc());
+                bundle.putString("DVT",temp.getDVT());
+                bundle.putFloat("donGia",temp.getDonGia());
+                bundle.putByteArray("hinhAnh", temp.getImageMedical());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(thuocActivity.this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setControl()
     {
         timKiem = findViewById(R.id.editTextTextPersonNameT);
