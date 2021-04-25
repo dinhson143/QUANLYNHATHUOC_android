@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -86,11 +87,27 @@ public class suaHoaDonActivity extends AppCompatActivity {
         btnSuaNT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NTsua();
+
+                if (edtSoHD.getText().length() == 0)
+                {
+                    Toast.makeText(suaHoaDonActivity.this, "Vui lòng nhập Số Hóa Đơn!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (edtNgayHD.getText().length() == 0)
+                {
+                    Toast.makeText(suaHoaDonActivity.this, "Vui lòng nhập Ngày Hóa Đơn!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (tempMaNT == null)
+                {
+                    Toast.makeText(suaHoaDonActivity.this, "Vui lòng chọn Thuốc!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                HDsua();
             }
         });
     }
-    private void NTsua() {
+    private void HDsua() {
         database db = new database(this);
         hoaDon hd = getHoaDon();
         db.updateHoaDon(hd);

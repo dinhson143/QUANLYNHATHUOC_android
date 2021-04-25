@@ -29,6 +29,21 @@ public class themNhaThuocActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                if (edtmaNT.getText().length() == 0)
+                {
+                    Toast.makeText(themNhaThuocActivity.this, "Vui lòng nhập Mã Nhà Thuốc!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (edtTenNT.getText().length() == 0)
+                {
+                    Toast.makeText(themNhaThuocActivity.this, "Vui lòng nhập Tên Nhà Thuốc!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (edtDiaChi.getText().length() == 0)
+                {
+                    Toast.makeText(themNhaThuocActivity.this, "Vui lòng nhập Địa Chỉ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 NTNhap();
             }
         });

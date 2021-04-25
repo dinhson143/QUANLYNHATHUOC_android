@@ -22,6 +22,10 @@
         <activity android:name=".hoaDonActivity"></activity>
         <activity android:name=".themHoaDonActivity"></activity>
         <activity android:name=".suaHoaDonActivity"></activity>
+        <activity android:name=".thuocActivity"></activity>
+        <activity android:name=".themThuocActivity"></activity>
+        <activity android:name=".suaThuocActivity"></activity>
+        <activity android:name=".chiTietBanLeActivity"></activity>
     </application>
 
 </manifest>

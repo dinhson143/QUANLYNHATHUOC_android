@@ -3,8 +3,9 @@ package com.example.quanlynhathuoc;
 public class thuoc {
     String maThuoc,tenThuoc,DVT;
     float donGia;
+    byte[] imageMedical;
 
-    public thuoc(String maThuoc, String tenThuoc, String DVT, float donGia) {
+    public thuoc(String maThuoc, String tenThuoc, String DVT, float donGia, byte[] imageMedical) {
         this.maThuoc = maThuoc;
         this.tenThuoc = tenThuoc;
         this.DVT = DVT;
@@ -44,5 +45,13 @@ public class thuoc {
 
     public void setDonGia(float donGia) {
         this.donGia = donGia;
+    }
+
+    public byte[] getImageMedical() {
+        return imageMedical;
+    }
+
+    public void setImageMedical(byte[] imageMedical) {
+        this.imageMedical = imageMedical;
     }
 }

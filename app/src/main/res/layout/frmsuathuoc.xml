@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/themThuoc"
+        android:text="@string/suaThuoc"
         android:textAlignment="center"
         android:textColor="#4CAF50"
         android:textSize="40dp"
@@ -48,11 +44,9 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tenThuoc"
+            android:text="@string/tenNhaThuoc"
             android:textSize="20dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -63,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/tenThuoc"
+            android:hint="Tên Thuốc"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -87,15 +81,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/DVT"
+            android:hint="Đơn vị tính"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             />
+
         <TextView
+            android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/DVT"
+            android:text="@string/donGia"
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
@@ -108,10 +104,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/donGia"
-            android:inputType="number"
+            android:hint="Đơn Giá"
+            android:inputType="textPersonName"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingRight="20dp"/>
+            <!--android:layout_marginBottom="50dp"-->
             />
 
         <TextView
@@ -125,45 +122,41 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imgAdd_insert"
+            android:id="@+id/imgAdd_Update"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/medical_icon" />
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/medical_icon"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_horizontal">
             <Button
-                android:id="@+id/btnXacNhanThemT"
+                android:id="@+id/btnSuaT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/xacNhan"
-                app:backgroundTint="#4CAF50"
-                android:layout_marginRight="10dp"
+                android:backgroundTint="#4CAF50"
                 />
 
             <Button
-                android:id="@+id/btnHuyT"
+                android:id="@+id/btnReloadformSua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lamMoi"
+                android:backgroundTint="#4CAF50"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+            <Button
+                android:id="@+id/btnExit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/huy"
-                app:backgroundTint="#4CAF50"
-                android:layout_marginRight="10dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-            <Button
-                android:id="@+id/btnTroVeT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/troVe"
-                app:backgroundTint="#4CAF50"
+                android:backgroundTint="#4CAF50"
                 />
         </LinearLayout>
     </LinearLayout>

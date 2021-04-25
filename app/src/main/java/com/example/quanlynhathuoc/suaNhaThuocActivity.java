@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +42,16 @@ public class suaNhaThuocActivity  extends AppCompatActivity {
         btnSuaNT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NTsua();
+                if (edtTenNT.getText().length() == 0)
+                {
+                    Toast.makeText(suaNhaThuocActivity.this, "Vui lòng nhập Tên Nhà Thuốc!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (edtDiaChi.getText().length() == 0)
+                {
+                    Toast.makeText(suaNhaThuocActivity.this, "Vui lòng nhập Địa Chỉ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }NTsua();
             }
         });
     }

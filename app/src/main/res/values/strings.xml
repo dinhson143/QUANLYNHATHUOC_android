@@ -29,6 +29,8 @@
     <string name="tenThuoc">Tên Thuốc</string>
     <string name="DVT">Đơn Vị Tính</string>
     <string name="donGia">Đơn Giá</string>
+    <string name="hinhAnh">Hình Ảnh</string>
     <string name="themThuoc">Thêm Thuốc</string>
+    <string name="suaThuoc">Sửa Thuốc</string>
     <string name="suaHoaDon">Sửa Hóa Đơn</string>
 </resources>
