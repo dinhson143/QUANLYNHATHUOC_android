@@ -3,6 +3,8 @@ package com.example.quanlynhathuoc;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,11 +28,34 @@ public class suaHoaDonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmsuahoadon);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
         edtSoHD.setEnabled(false);
     }
-
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.themactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xacNhan:
+            {
+                NTsua();
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(suaHoaDonActivity.this, hoaDonActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setControl() {
         edtSoHD = findViewById(R.id.edtSoHoaDon);
         edtNgayHD = findViewById(R.id.edtNgayHoaDon);

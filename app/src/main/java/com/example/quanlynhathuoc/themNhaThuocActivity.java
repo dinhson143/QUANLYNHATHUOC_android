@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,10 +22,34 @@ public class themNhaThuocActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmthemnhathuoc);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.themactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xacNhan:
+            {
+                NTNhap();
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(themNhaThuocActivity.this, nhaThuocActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setEvent() {
         btnXacNhanThemNT.setOnClickListener(new View.OnClickListener() {
             @Override

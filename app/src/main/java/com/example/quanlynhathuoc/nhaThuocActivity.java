@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -30,10 +32,60 @@ public class nhaThuocActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmnhathuoc);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.formactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xemDS:
+            {
+                Intent intent = new Intent(nhaThuocActivity.this, hoaDonActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("maNT", temp.getMaNT());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.Ab_them:
+            {
+                Intent intent = new Intent(nhaThuocActivity.this, themNhaThuocActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.AB_xoa:
+            {
+                thongbaoXoa("XÁC NHẬN XÓA","Bạn chắc chắn muốn xóa nhà thuốc?");
+                return true;
+            }
+            case R.id.AB_sua:
+            {
+                Intent intent = new Intent(nhaThuocActivity.this, suaNhaThuocActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("maNT",temp.getMaNT());
+                bundle.putString("tenNT",temp.getTenNT());
+                bundle.putString("diachiNT",temp.getDiaChi());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(nhaThuocActivity.this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setControl()
     {
         NT_btnThem = findViewById(R.id.NT_btnThem);

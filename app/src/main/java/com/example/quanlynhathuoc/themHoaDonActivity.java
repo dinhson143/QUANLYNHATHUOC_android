@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,8 +28,32 @@ public class themHoaDonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmthemhoadon);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
+    }
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.themactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xacNhan:
+            {
+                NTNhap();
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                Intent intent = new Intent(themHoaDonActivity.this, hoaDonActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
     private void setControl() {
         btnXacNhanThemNT = findViewById(R.id.btnXacNhanThemNT);

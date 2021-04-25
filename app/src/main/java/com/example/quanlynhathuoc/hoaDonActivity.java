@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,10 +33,63 @@ public class hoaDonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frmhoadon);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         setControl();
         setEvent();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.formactionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case R.id.AB_xemDS:
+            {
+                return true;
+            }
+            case R.id.Ab_them:
+            {
+                Intent intent = new Intent(hoaDonActivity.this, themHoaDonActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.AB_xoa:
+            {
+                thongbaoXoa("XÁC NHẬN XÓA","Bạn chắc chắn muốn xóa hóa đơn"+ temp.getMaHD()+"?");
+                return true;
+            }
+            case R.id.AB_sua:
+            {
+                Intent intent = new Intent(hoaDonActivity.this, suaHoaDonActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("soHD",temp.getMaHD());
+                bundle.putString("ngayHD",temp.getNgayHD());
+                bundle.putString("maNT",temp.getMaNT());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.AB_troVe:
+            {
+                if(maNT=="")
+                {
+                    Intent intent = new Intent(hoaDonActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(hoaDonActivity.this, nhaThuocActivity.class);
+                    startActivity(intent);
+                }
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setControl() {
         NT_btnThem = findViewById(R.id.NT_btnThem);
         NT_btnXoa = findViewById(R.id.NT_btnXoa);
@@ -151,7 +206,7 @@ public class hoaDonActivity extends AppCompatActivity {
         NT_btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                thongbaoXoa("XÁC NHẬN XÓA","Bạn chắc chắn muốn xóa nhà thuốc?");
+                thongbaoXoa("XÁC NHẬN XÓA","Bạn chắc chắn muốn xóa hóa đơn"+ temp.getMaHD()+"?");
             }
         });
         NT_btnSua.setOnClickListener(new View.OnClickListener() {
