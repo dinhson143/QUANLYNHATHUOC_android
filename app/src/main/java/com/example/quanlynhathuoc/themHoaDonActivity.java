@@ -44,7 +44,7 @@ public class themHoaDonActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.AB_xacNhan:
             {
-                NTNhap();
+                HDNhap();
                 return true;
             }
             case R.id.AB_troVe:

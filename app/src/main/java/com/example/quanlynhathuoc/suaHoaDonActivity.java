@@ -45,7 +45,7 @@ public class suaHoaDonActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.AB_xacNhan:
             {
-                NTsua();
+                HDsua();
                 return true;
             }
             case R.id.AB_troVe:
