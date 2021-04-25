@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,7 +83,22 @@ public class themHoaDonActivity extends AppCompatActivity {
         btnXacNhanThemNT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NTNhap();
+                if (edtSoHD.getText().length() == 0)
+                {
+                    Toast.makeText(themHoaDonActivity.this, "Vui lòng nhập Số Hóa Đơn!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (edtNgayHD.getText().length() == 0)
+                {
+                    Toast.makeText(themHoaDonActivity.this, "Vui lòng nhập Ngày Hóa Đơn!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (tempMaNT == null)
+                {
+                    Toast.makeText(themHoaDonActivity.this, "Vui lòng chọn Thuốc!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                HDNhap();
             }
         });
         btnTroVeNT.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +118,7 @@ public class themHoaDonActivity extends AppCompatActivity {
             tempMaNT=allMaNT.get(0);
     }
 
-    private void NTNhap() {
+    private void HDNhap() {
         database db = new database(this);
         hoaDon nt = getHoaDon();
         Cursor cursor = db.checkHoaDon(nt.getMaHD());

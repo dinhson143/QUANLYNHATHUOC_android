@@ -15,7 +15,7 @@ import java.util.List;
 //LỚP XỬ LÍ DỮ LIỆU
 public class database extends SQLiteOpenHelper {
     private static String DB_NAME = "dbNhaThuoc.db";
-    private static int DB_VERSION =2;
+    private static int DB_VERSION = 6;
     private static final String TB_NHATHUOCS = "tbNhaThuoc";
     private static final String COL_NHATHUOC_MANT = "NhaThuoc_MaNT";
     private static final String COL_NHATHUOC_TENNT = "NhaThuoc_TenNT";
@@ -31,6 +31,7 @@ public class database extends SQLiteOpenHelper {
     private static final String COL_THUOC_TENTHUOC = "Thuoc_TenThuoc";
     private static final String COL_THUOC_DVT = "Thuoc_DVT";
     private static final String COL_THUOC_DONGIA = "Thuoc_DonGia";
+    private static final String COL_THUOC_HINHANH = "Thuoc_HinhAnh";
 
     private static final String TB_CTBLS = "tbCTBL";
     private static final String COL_CTBL_SOHD = "CTBL_SoHD";
@@ -46,6 +47,8 @@ public class database extends SQLiteOpenHelper {
     {
         db.execSQL("DROP TABLE IF EXISTS "+ TB_HOADONS);
         db.execSQL("DROP TABLE IF EXISTS "+ TB_NHATHUOCS);
+        db.execSQL("DROP TABLE IF EXISTS " + TB_THUOCS);
+        db.execSQL("DROP TABLE IF EXISTS " + TB_CTBLS);
         onCreate(db);
     }
     @Override
@@ -56,8 +59,18 @@ public class database extends SQLiteOpenHelper {
         String scriptTB_HoaDons = "CREATE TABLE "+ TB_HOADONS + "(" + COL_HOADON_SOHD + " TEXT PRIMARY KEY,"
                 + COL_HOADON_NGAYHD + " TEXT," + COL_HOADON_MANT + " TEXT,"
                 + "FOREIGN KEY("+ COL_HOADON_MANT +") REFERENCES "+ TB_NHATHUOCS +"("+ COL_NHATHUOC_MANT +"))";
+        String scriptTB_Thuocs = "CREATE TABLE " + TB_THUOCS + "(" + COL_THUOC_MATHUOC + " TEXT PRIMARY KEY,"
+                + COL_THUOC_TENTHUOC + " TEXT," + COL_THUOC_DVT + " TEXT," + COL_THUOC_DONGIA + " TEXT, "
+                + COL_THUOC_HINHANH + " BLOB)";
+
+        String scriptTB_CTBLs = "CREATE TABLE " + TB_CTBLS + "(" + COL_CTBL_SOHD + " TEXT, " + COL_CTBL_MATHUOC
+                + " TEXT, " + COL_CTBL_SOlUONG + "INT, PRIMARY KEY(" + COL_CTBL_SOHD + ", " + COL_CTBL_MATHUOC + "), "
+                + "FOREIGN KEY(" + COL_CTBL_SOHD + ") REFERENCES " + TB_HOADONS + "(" + COL_HOADON_SOHD + "), "
+                + "FOREIGN KEY(" + COL_CTBL_MATHUOC + ") REFERENCES " + TB_THUOCS + "(" + COL_THUOC_MATHUOC + "))";
         db.execSQL(scriptTB_NhaThuocs);
         db.execSQL(scriptTB_HoaDons);
+        db.execSQL(scriptTB_Thuocs);
+        db.execSQL(scriptTB_CTBLs);
     }
     public void getAllDataNhaThuoc(ArrayList<nhaThuoc> nhaThuocs)
     {
@@ -212,5 +225,138 @@ public class database extends SQLiteOpenHelper {
         String sql ="SELECT * FROM "+TB_HOADONS +" WHERE "+ COL_HOADON_SOHD + "=?";
         Cursor cursor = db.rawQuery(sql,new String[]{maHD});
         return cursor;
+    }
+
+    //Chi tiết bán lẻ
+    public void getAllDataCTBL(ArrayList<chiTietBanLe> CTBL)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TB_CTBLS, new String[]{
+                COL_CTBL_SOHD, COL_CTBL_MATHUOC, COL_CTBL_SOlUONG},null,null,null,null,null);
+        if (cursor.moveToFirst())
+        {
+            do {
+                chiTietBanLe c = new chiTietBanLe();
+                c.setSoHD(cursor.getString(cursor.getColumnIndex(COL_CTBL_SOHD)));
+                c.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+                c.setSoLuong(cursor.getInt(cursor.getColumnIndex(COL_CTBL_SOlUONG)));
+                CTBL.add(c);
+            }while (cursor.moveToNext());
+        }
+    }
+
+    public void saveCTBL(chiTietBanLe c)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_CTBL_SOHD, c.getSoHD());
+        values.put(COL_CTBL_MATHUOC, c.getMaThuoc());
+        values.put(COL_CTBL_SOlUONG, c.getSoLuong());
+        db.insert(TB_THUOCS, null, values);
+        db.close();
+    }
+
+    public void deleteCTBL(String soHD, String maThuoc)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " + TB_THUOCS + " WHERE " + COL_CTBL_SOHD + "= '" + soHD + "' AND " + COL_THUOC_MATHUOC + "='" + maThuoc  + "'";
+        db.execSQL(query);
+    }
+
+    public void updateCTBL(chiTietBanLe c)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "UPDATE " + TB_CTBLS + " SET ";
+        /*sql += COL_CTBL_SOHD + " = '" + c.getSoHD() +"', ";
+        sql += COL_CTBL_MATHUOC + " = '" + c.getMaThuoc() +"', ";*/
+        sql += COL_CTBL_SOlUONG + " = '" + c.getSoLuong() +"' ";
+        sql += "WHERE " + COL_CTBL_SOHD + "= '" + c.getSoHD() + "' AND " + COL_THUOC_MATHUOC + " = '" + c.getMaThuoc() + "'";
+        db.execSQL(sql);
+    }
+
+    public Cursor checkCTBL(String soHD, String maThuoc)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "SELECT * FROM " + TB_THUOCS + " WHERE " + COL_THUOC_MATHUOC + "=? AND " + COL_CTBL_SOHD + "=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{maThuoc, soHD});
+        return cursor;
+    }
+
+    //Thuốc
+    public void getAllDataThuoc(ArrayList<thuoc> thuocs)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TB_THUOCS, new String[]{
+                COL_THUOC_MATHUOC,COL_THUOC_TENTHUOC,COL_THUOC_DVT,COL_THUOC_DONGIA, COL_THUOC_HINHANH},null,null,null,null,null);
+        if (cursor.moveToFirst())
+        {
+            do {
+                thuoc t = new thuoc();
+                t.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+                t.setTenThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_TENTHUOC)));
+                t.setDVT(cursor.getString(cursor.getColumnIndex(COL_THUOC_DVT)));
+                t.setDonGia(cursor.getFloat(cursor.getColumnIndex(COL_THUOC_DONGIA)));
+                t.setImageMedical(cursor.getBlob(cursor.getColumnIndex(COL_THUOC_HINHANH)));
+                thuocs.add(t);
+            }while (cursor.moveToNext());
+        }
+    }
+
+    public void saveThuoc(thuoc t)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_THUOC_MATHUOC, t.getMaThuoc());
+        values.put(COL_THUOC_TENTHUOC, t.getTenThuoc());
+        values.put(COL_THUOC_DVT, t.getDVT());
+        values.put(COL_THUOC_DONGIA, t.getDonGia());
+        values.put(COL_THUOC_HINHANH, t.getImageMedical());
+        db.insert(TB_THUOCS, null, values);
+        db.close();
+    }
+
+    public void deleteThuoc(String maThuoc)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM " + TB_THUOCS + " WHERE " + COL_THUOC_MATHUOC + "='" + maThuoc  + "'";
+        db.execSQL(query);
+    }
+
+    public void updateThuoc(thuoc t)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "UPDATE " + TB_THUOCS + " SET ";
+        sql += COL_THUOC_TENTHUOC + " = '" + t.getTenThuoc() +"', ";
+        sql += COL_THUOC_DVT + " = '" + t.getDVT() +"', ";
+        sql += COL_THUOC_DONGIA + " = '" + t.getDonGia() +"', ";
+        sql += COL_THUOC_HINHANH + " = '" + t.getImageMedical() + "' ";
+        sql += "WHERE " + COL_THUOC_MATHUOC + " = '" + t.getMaThuoc() + "'";
+        db.execSQL(sql);
+    }
+
+    public Cursor checkThuoc(String maThuoc)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "SELECT * FROM " + TB_THUOCS + " WHERE " + COL_THUOC_MATHUOC + "=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{maThuoc});
+        return cursor;
+    }
+    public void searchThuoc(ArrayList<thuoc> thuocs,String maThuoc)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql ="SELECT * FROM "+TB_THUOCS +" WHERE " + COL_THUOC_MATHUOC +" LIKE "+ "'%'||"+"? || '%'";
+        Cursor cursor = db.rawQuery(sql,new String[]{maThuoc.trim()});
+//        Log.i("sql",sql);
+        if(cursor.moveToFirst()) {
+            do {
+                thuoc t = new thuoc();
+                t.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+                t.setTenThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_TENTHUOC)));
+                t.setDVT(cursor.getString(cursor.getColumnIndex(COL_THUOC_DVT)));
+                t.setDonGia(cursor.getFloat(cursor.getColumnIndex(COL_THUOC_DONGIA)));
+                t.setImageMedical(cursor.getBlob(cursor.getColumnIndex(COL_THUOC_HINHANH)));
+                thuocs.add(t);
+            } while (cursor.moveToNext());
+        }
     }
 }
