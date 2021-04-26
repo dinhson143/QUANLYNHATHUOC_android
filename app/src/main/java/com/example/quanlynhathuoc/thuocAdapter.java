@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class    thuocAdapter extends ArrayAdapter<thuoc> {
+public class thuocAdapter extends ArrayAdapter<thuoc> {
     Context context;
     int layoutResourceId;
     ArrayList<thuoc> data = null;

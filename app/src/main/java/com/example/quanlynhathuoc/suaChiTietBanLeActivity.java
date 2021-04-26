@@ -25,7 +25,10 @@ public class suaChiTietBanLeActivity extends AppCompatActivity {
     Button btnXacNhanThemNT,btnTroVeNT;
     String tempSoHD,tempMaThuoc;
     ArrayList<String> allSoHD = new ArrayList<>();
-    ArrayList<String> allMaThuoc = new ArrayList<>();
+    /*ArrayList<String> allMaThuoc = new ArrayList<>();*/
+    ArrayList<thuoc> allMaThuoc = new ArrayList<>();
+    thuoc tempThuoc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,12 +99,14 @@ public class suaChiTietBanLeActivity extends AppCompatActivity {
                 break;
             }
         }
-        ArrayAdapter adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,allMaThuoc);
-        adapter1.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        //ArrayAdapter adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,allMaThuoc);
+        /*ArrayAdapter adapter1 = new ArrayAdapter<thuoc>(this, android.R.layout.simple_spinner_item, allMaThuoc);
+        adapter1.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);*/
+        CustomSpinnerAdapter adapter1 = new CustomSpinnerAdapter(getApplicationContext(), allMaThuoc);
         spnMaThuoc.setAdapter(adapter1);
         for(int i=0;i<allMaThuoc.size();i++)
         {
-            if(allMaThuoc.get(i).equals(tempMaThuoc))
+            if(allMaThuoc.get(i).getMaThuoc().equals(tempMaThuoc))
             {
                 spnMaThuoc.setSelection(i);
                 break;
@@ -144,7 +149,10 @@ public class suaChiTietBanLeActivity extends AppCompatActivity {
         allMaThuoc.clear();
         db.getAllMaThuoc(allMaThuoc);
         if(allMaThuoc.size()>0)
-            tempMaThuoc=allMaThuoc.get(0);
+        {
+            //tempMaThuoc=allMaThuoc.get(0);
+            tempThuoc = allMaThuoc.get(0);
+        }
     }
     private void CTBLSua() {
         database db = new database(this);
@@ -179,7 +187,8 @@ public class suaChiTietBanLeActivity extends AppCompatActivity {
         chiTietBanLe ctbl = new chiTietBanLe();
         ctbl.setSoHD(tempSoHD);
         ctbl.setMaThuoc(tempMaThuoc);
-        ctbl.setSoLuong(Integer.parseInt(edtSoLuong.getText().toString()));
+        //ctbl.setMaThuoc(tempThuoc.getMaThuoc());
+        ctbl.setSoLuong(Integer.valueOf(edtSoLuong.getText().toString()));
         return ctbl;
     }
 }

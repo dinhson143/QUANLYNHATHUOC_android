@@ -305,7 +305,7 @@ public class database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
     }
-    public void getAllMaThuoc(ArrayList<String> maThuocs)
+    /*public void getAllMaThuoc(ArrayList<String> maThuocs)
     {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(TB_THUOCS, new String[]{
@@ -315,7 +315,23 @@ public class database extends SQLiteOpenHelper {
                 maThuocs.add(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
             } while (cursor.moveToNext());
         }
+    }*/
+
+    public void getAllMaThuoc(ArrayList<thuoc> maThuocs)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(TB_THUOCS, new String[]{
+                COL_THUOC_MATHUOC, COL_THUOC_HINHANH},null,null,null,null,null);
+        if(cursor.moveToFirst()){
+            do {
+                thuoc t = new thuoc();
+                t.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+                t.setImageMedical(cursor.getBlob(cursor.getColumnIndex(COL_THUOC_HINHANH)));
+                maThuocs.add(t);
+            } while (cursor.moveToNext());
+        }
     }
+
     public void searchCTBL(ArrayList<chiTietBanLe> chiTietBanLes,String maThuoc)
     {
         SQLiteDatabase db = this.getWritableDatabase();
