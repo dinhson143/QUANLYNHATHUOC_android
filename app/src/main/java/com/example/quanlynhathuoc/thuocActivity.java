@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +23,9 @@ import java.util.ArrayList;
 public class thuocActivity extends AppCompatActivity {
     EditText timKiem;
     ListView lvThuoc;
-    Button btnThem, btnXoa, btnSua, btnTroVe;
+    Button btnThem, btnXoa, btnSua, btnTroVe, btnTK, btnDS;
     //EditText searchT;
+    TextView tv;
     ArrayList<thuoc> data = new ArrayList<>();
     thuocAdapter adapter = null;
     thuoc temp = null;
@@ -92,6 +94,9 @@ public class thuocActivity extends AppCompatActivity {
         btnSua = findViewById(R.id.T_btnSua);
         btnTroVe = findViewById(R.id.T_btnTroVe);
         //searchT = findViewById(R.id.editTextTextPersonNameT);
+        btnTK = findViewById(R.id.btnTK);
+        btnDS = findViewById(R.id.T_btnXemDS);
+        tv = findViewById(R.id.textView2);
     }
 
     private void loadData()
@@ -238,6 +243,29 @@ public class thuocActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     loadData();
                 }
+            }
+        });
+
+        btnTK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                database db = new database(thuocActivity.this);
+                data.clear();
+                db.thongKe(data);
+                adapter.notifyDataSetChanged();
+                if(data.size()>0)
+                {
+                    temp=data.get(0);
+                }
+                tv.setText("THỐNG KÊ THUỐC");
+            }
+        });
+
+        btnDS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+                tv.setText(R.string.thuoc);
             }
         });
     }

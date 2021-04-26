@@ -51,5 +51,4 @@ public class chitietbanleAdapter extends ArrayAdapter<chiTietBanLe> {
         holder.edtSoLuong.setText(String.valueOf(ctbl.getSoLuong()));
         return row;
     }
-
 }

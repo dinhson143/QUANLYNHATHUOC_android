@@ -375,13 +375,22 @@ public class database extends SQLiteOpenHelper {
     public void updateThuoc(thuoc t)
     {
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "UPDATE " + TB_THUOCS + " SET ";
+        /*String sql = "UPDATE " + TB_THUOCS + " SET ";
         sql += COL_THUOC_TENTHUOC + " = '" + t.getTenThuoc() +"', ";
         sql += COL_THUOC_DVT + " = '" + t.getDVT() +"', ";
         sql += COL_THUOC_DONGIA + " = '" + t.getDonGia() +"', ";
         sql += COL_THUOC_HINHANH + " = '" + t.getImageMedical() + "' ";
         sql += "WHERE " + COL_THUOC_MATHUOC + " = '" + t.getMaThuoc() + "'";
-        db.execSQL(sql);
+        db.execSQL(sql);*/
+
+        ContentValues values = new ContentValues();
+        values.put(COL_THUOC_MATHUOC, t.getMaThuoc());
+        values.put(COL_THUOC_TENTHUOC, t.getTenThuoc());
+        values.put(COL_THUOC_DVT, t.getDVT());
+        values.put(COL_THUOC_DONGIA, t.getDonGia());
+        values.put(COL_THUOC_HINHANH, t.getImageMedical());
+        db.update(TB_THUOCS, values, COL_THUOC_MATHUOC + " = '" + t.getMaThuoc() + "'", null);
+        db.close();
     }
 
     public Cursor checkThuoc(String maThuoc)
@@ -398,6 +407,33 @@ public class database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql,new String[]{maThuoc.trim()});
 //        Log.i("sql",sql);
         if(cursor.moveToFirst()) {
+            do {
+                thuoc t = new thuoc();
+                t.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));
+                t.setTenThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_TENTHUOC)));
+                t.setDVT(cursor.getString(cursor.getColumnIndex(COL_THUOC_DVT)));
+                t.setDonGia(cursor.getFloat(cursor.getColumnIndex(COL_THUOC_DONGIA)));
+                t.setImageMedical(cursor.getBlob(cursor.getColumnIndex(COL_THUOC_HINHANH)));
+                thuocs.add(t);
+            } while (cursor.moveToNext());
+        }
+    }
+
+    public void thongKe(ArrayList<thuoc> thuocs) {
+        int tk = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        //String query = "SELECT * FROM " + TB_THUOCS + " JOIN (SELECT " + COL_CTBL_MATHUOC + ", SUM (" + COL_CTBL_SOlUONG + ") AS SL FROM " + TB_CTBLS + " ORDER BY (SL) DESC) ON " + COL_THUOC_MATHUOC + " = " + COL_CTBL_MATHUOC + " GROUP BY " + COL_THUOC_MATHUOC;
+        String query = "SELECT * FROM " + TB_THUOCS + " JOIN (SELECT " + COL_CTBL_MATHUOC + ", SUM ("
+                        + COL_CTBL_SOlUONG + ") AS SL FROM " + TB_CTBLS + ", " + TB_THUOCS + " WHERE "
+                        + COL_THUOC_MATHUOC + " = " + COL_CTBL_MATHUOC + " ORDER BY (SL) DESC) ON "
+                        + COL_THUOC_MATHUOC + " = " + COL_CTBL_MATHUOC + " GROUP BY " + COL_THUOC_MATHUOC;
+        /*String query = "SELECT " + COL_CTBL_MATHUOC + ", " + COL_THUOC_TENTHUOC + ", " + COL_THUOC_DVT + ", "
+                + COL_THUOC_HINHANH + ", " + COL_THUOC_DONGIA + " = " + " SUM (" + COL_CTBL_SOlUONG + ") AS SL " +
+                "FROM " + TB_CTBLS + ", " + TB_THUOCS + " WHERE " + COL_THUOC_MATHUOC + " = " + COL_CTBL_MATHUOC
+                + " GROUP BY " + COL_THUOC_MATHUOC
+                + " ORDER BY (SL) DESC ";*/
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
             do {
                 thuoc t = new thuoc();
                 t.setMaThuoc(cursor.getString(cursor.getColumnIndex(COL_THUOC_MATHUOC)));

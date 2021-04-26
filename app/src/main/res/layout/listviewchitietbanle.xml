@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/maThuoc"
             android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:padding="5dp"
             />
         <TextView
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/soLuong"
             android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:padding="5dp"
             />
         />
