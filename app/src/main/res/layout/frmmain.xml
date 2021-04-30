@@ -54,7 +54,13 @@
         android:layout_marginTop="30dp"
         android:text="@string/thuoc"
         app:backgroundTint="#4CAF50" />
-
+    <Button
+        android:id="@+id/btnMoDoanhThu"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/thongKeDoanhThu"
+        app:backgroundTint="#4CAF50" />
     <Button
         android:id="@+id/btnThoat"
         android:layout_width="200dp"

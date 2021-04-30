@@ -34,4 +34,10 @@
     <string name="suaThuoc">Sửa Thuốc</string>
     <string name="suaHoaDon">Sửa Hóa Đơn</string>
     <string name="suaChiTietBanLe">Sửa Chi Tiết Bán Lẻ</string>
+    <string name="thongKeDoanhThu">Thống Kê Doanh Thu</string>
+    <string name="doanhThu">Doanh Thu</string>
+    <string name="thoiGian">Thời Gian</string>
+    <string name="bieuDo">Biểu Đồ</string>
+    <string name="thang">Tháng</string>
+    <string name="nam">Năm</string>
 </resources>

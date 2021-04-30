@@ -38,6 +38,9 @@ public class database extends SQLiteOpenHelper {
     private static final String COL_CTBL_MATHUOC = "CTBL_MaThuoc";
     private static final String COL_CTBL_SOlUONG = "CTBL_SoLuong";
 
+    private static final String COL_DOANHTHU = "doanhThu";
+    private static final String COL_THOIGIAN = "thoiGian";
+
     public database(Context context)
     {
         super(context,DB_NAME,null,DB_VERSION);
@@ -458,6 +461,30 @@ public class database extends SQLiteOpenHelper {
                 t.setDonGia(cursor.getFloat(cursor.getColumnIndex(COL_THUOC_DONGIA)));
                 t.setImageMedical(cursor.getBlob(cursor.getColumnIndex(COL_THUOC_HINHANH)));
                 thuocs.add(t);
+            } while (cursor.moveToNext());
+        }
+    }
+    // THONG KE DOANH THU
+    public void thongKeDoanhThu(ArrayList<doanhThu> dts,String thoiGian)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT " + TB_NHATHUOCS +"."+ COL_NHATHUOC_MANT + ", " + TB_NHATHUOCS + "." + COL_NHATHUOC_TENNT
+                +", SUM("+TB_THUOCS +"." + COL_THUOC_DONGIA +"*"+ TB_CTBLS +"."+COL_CTBL_SOlUONG+") as "+ COL_DOANHTHU
+                +" FROM " + TB_NHATHUOCS +"," + TB_THUOCS +"," + TB_HOADONS +","+ TB_CTBLS
+                + " WHERE " + TB_NHATHUOCS +"." + COL_NHATHUOC_MANT +"=" +TB_HOADONS +"."+ COL_HOADON_MANT
+                + " AND " + TB_HOADONS +"."+ COL_HOADON_SOHD +"=" + TB_CTBLS + "."+ COL_CTBL_SOHD
+                + " AND "+ TB_CTBLS + "." +COL_CTBL_MATHUOC +"=" + TB_THUOCS + "." +COL_THUOC_MATHUOC
+                + " AND " + TB_HOADONS+ "."+COL_HOADON_NGAYHD+ " LIKE "+ "'%"+ thoiGian +"%'"
+                + " GROUP BY " + TB_NHATHUOCS +"." + COL_NHATHUOC_MANT +"," + TB_NHATHUOCS + "." + COL_NHATHUOC_TENNT;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                doanhThu dt = new doanhThu();
+                dt.setMaNT(cursor.getString(cursor.getColumnIndex(COL_NHATHUOC_MANT)));
+                dt.setTenNT(cursor.getString(cursor.getColumnIndex(COL_NHATHUOC_TENNT)));
+                dt.setDoanhThu(cursor.getFloat(cursor.getColumnIndex(COL_DOANHTHU)));
+                dt.setThoiGian(thoiGian);
+                dts.add(dt);
             } while (cursor.moveToNext());
         }
     }

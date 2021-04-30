@@ -28,6 +28,8 @@
         <activity android:name=".chiTietBanLeActivity"></activity>
         <activity android:name=".themChiTietBanLeActivity"></activity>
         <activity android:name=".suaChiTietBanLeActivity"></activity>
+        <activity android:name=".doanhThuActivity"></activity>
+        <activity android:name=".thongKeDoanhThuActivity"></activity>
     </application>
 
 </manifest>

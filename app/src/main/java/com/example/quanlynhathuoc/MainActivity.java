@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnMoNhaThuoc,btnMoHoaDon, btnMoThuoc, btnMoCTBL;
+    Button btnMoNhaThuoc,btnMoHoaDon, btnMoThuoc, btnMoCTBL,btnMoTKDT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         btnMoHoaDon = findViewById(R.id.btnMoHoaDon);
         btnMoThuoc = findViewById(R.id.btnMoThuoc);
         btnMoCTBL = findViewById(R.id.btnMoChiTietBanLe);
+        btnMoTKDT = findViewById(R.id.btnMoDoanhThu);
     }
     private void  setEvent()
     {
@@ -88,5 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnMoTKDT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, doanhThuActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
