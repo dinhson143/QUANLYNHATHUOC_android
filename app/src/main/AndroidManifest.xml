@@ -30,6 +30,7 @@
         <activity android:name=".suaChiTietBanLeActivity"></activity>
         <activity android:name=".doanhThuActivity"></activity>
         <activity android:name=".thongKeDoanhThuActivity"></activity>
+        <activity android:name=".bieuDoActivity"></activity>
     </application>
 
 </manifest>

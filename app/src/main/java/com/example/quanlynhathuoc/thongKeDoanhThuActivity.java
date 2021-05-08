@@ -14,8 +14,8 @@ public class thongKeDoanhThuActivity extends AppCompatActivity {
     private ListView lvTKDT;
     ArrayList<doanhThu> data = new ArrayList<>();
     doanhThuAdapter adapter = null;
-    Button btnTroVe;
-    String thoiGian="";
+    Button btnTroVe,btnBieuDo;
+    String thoiGian="",thang="",nam="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,14 +26,17 @@ public class thongKeDoanhThuActivity extends AppCompatActivity {
     }
     private void setControl() {
         btnTroVe = findViewById(R.id.NT_btnTroVe);
+        btnBieuDo = findViewById(R.id.NT_btnBieuDo);
         lvTKDT = findViewById(R.id.lvDoanhThu);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle!=null)
         {
-            thoiGian += bundle.getString("thang");
+            thang = bundle.getString("thang");
+            nam = bundle.getString("nam");
+            thoiGian += thang;
             thoiGian += "/";
-            thoiGian += bundle.getString("nam");
+            thoiGian += nam;
         }
     }
     private void setEvent() {
@@ -47,6 +50,18 @@ public class thongKeDoanhThuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(thongKeDoanhThuActivity.this, doanhThuActivity.class);
                 startActivity(intent);
+            }
+        });
+        btnBieuDo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(thongKeDoanhThuActivity.this, bieuDoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("thang",thang);
+                bundle.putString("nam",nam);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
             }
         });
     }
