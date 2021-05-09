@@ -131,10 +131,10 @@ public class bieuDoActivity extends AppCompatActivity implements OnChartValueSel
                 value = rnd.nextInt();
             }
             do {
+                Random rnd = new Random();
+                value = rnd.nextInt();
                 for(int j=0;j<colors.size();j++)
                 {
-                    Random rnd = new Random();
-                    value = rnd.nextInt();
                     if(colors.get(j) == Color.rgb(value,value,value))
                         check = true;
                 }
